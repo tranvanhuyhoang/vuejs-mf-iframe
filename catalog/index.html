@@ -1,0 +1,38 @@
+<h1>Products catalog</h1>
+<h2>
+    Apple 
+    <button value="apple" class="add">Add to cart</button> 
+    <button value="apple" class="decrease">Decrease</button>
+    <button value="apple" class="reset">Reset</button>
+</h2>
+<h2>
+    Banana 
+    <button value="banana" class="add">Add to cart</button> 
+    <button value="banana" class="decrease">Decrease</button>
+    <button value="banana" class="reset">Reset</button>
+</h2>
+<h2>
+    Orange 
+    <button value="orange" class="add">Add to cart</button> 
+    <button value="orange" class="decrease">Decrease</button>
+    <button value="orange" class="reset">Reset</button> 
+</h2>
+
+<script>
+    const addToCart = e => window.parent.postMessage({ value: e.target.value, type: 'add' }, "*");
+    document
+        .querySelectorAll("button.add")
+        .forEach(button => button.addEventListener("click", addToCart));
+    
+    const DecreateItem = e => window.parent.postMessage({ value: e.target.value, type: 'decrease' }, "*");
+    document
+        .querySelectorAll("button.decrease")
+        .forEach(button => button.addEventListener("click", DecreateItem));
+
+    const removeItem = e => window.parent.postMessage({value: e.target.value, type: 'reset'}, "*");
+    document
+            .querySelectorAll("button.reset")
+            .forEach(button => button.addEventListener("click", removeItem));
+
+
+</script>

@@ -1,0 +1,71 @@
+<script src="https://unpkg.com/vue@3"></script>
+
+<div id="app">
+    <h1>Shopping cart</h1>
+    <p>Apples: {{ products.apple }}</p>
+    <p>Bananas: {{ products.banana }}</p>
+    <p>Oranges: {{ products.orange }}</p>
+</div>
+
+<script>
+    const { createApp } = Vue;
+    const _add = (e) => {
+        console.log("e ", e);
+        add();
+    } 
+    createApp({
+        el: "#app",
+        data() {
+            return {
+                    products: {
+                    apple: 0,
+                    banana: 0,
+                    orange: 0
+                }
+            }
+        },
+        methods: {
+            add: function (event) {
+                this.products[event.data.value]++;
+            },
+            reset: function (event) {
+                if (this.products[event.data.value] === 0) {
+                    return;
+                }
+                this.products[event.data.value] = 0;
+            },
+            decrease: function (event) {
+                if (this.products[event.data.value] <= 0){
+                    return;
+                }
+                this.products[event.data.value]--;
+            }
+        },
+        beforeMount() {
+            window.addEventListener("message", (e) => {
+                const type = e.data.type;
+                if(type === 'reset'){
+                    this.reset(e);
+                }else if(type === 'decrease'){
+                    this.decrease(e);
+                }
+                else{
+                    this.add(e);
+                }
+            });
+        },
+        beforeDestroy() {
+               window.addEventListener("message", (e) => {
+                const type = e.data.type;
+                   if (type === 'reset') {
+                       this.reset(e);
+                   } else if (type === 'decrease') {
+                       this.decrease(e);
+                   }
+                   else {
+                       this.add(e);
+                   }
+            });
+        }
+        }).mount('#app')
+</script>
